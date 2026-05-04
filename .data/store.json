@@ -1,0 +1,299 @@
+{
+  "users": [
+    {
+      "email": "admin@local.dev",
+      "emailVerified": true,
+      "passwordHash": "$2a$12$Bn3b1SKb9VWKj48ZsgBGpOMW5AeFkoAfw8O/Ijdtsn0fk.nWtMRF.",
+      "name": "Admin",
+      "role": "admin",
+      "id": "usr_Jfv5fb56lpoa9AKz",
+      "emailLower": "admin@local.dev",
+      "createdAt": "2026-05-04T14:14:02.360Z",
+      "updatedAt": "2026-05-04T14:14:02.360Z"
+    },
+    {
+      "email": "seller@local.dev",
+      "emailVerified": true,
+      "passwordHash": "$2a$12$8gV9Pk9gumdjZ8J3TfLqhezoMV2HEHz7xJqMRWWvNC7U.E4d97HfK",
+      "name": "Demo Seller",
+      "role": "seller",
+      "sellerProfile": {
+        "businessName": "Demo Studio",
+        "description": "Selling demo digital goods",
+        "contactEmail": "seller@local.dev",
+        "status": "approved",
+        "approvedAt": "2026-05-04T14:14:03.099Z"
+      },
+      "id": "usr_vpZjaNaajd9iQ3W8",
+      "emailLower": "seller@local.dev",
+      "createdAt": "2026-05-04T14:14:03.099Z",
+      "updatedAt": "2026-05-04T14:14:03.099Z"
+    },
+    {
+      "email": "customer@local.dev",
+      "emailVerified": true,
+      "passwordHash": "$2a$12$etCESC3ARpWQBP17AoM.pOPGS08y3pWJjapxRItp1DYsK2ueyhHn.",
+      "name": "Demo Customer",
+      "role": "customer",
+      "id": "usr_an4oP9WI6B7C8jge",
+      "emailLower": "customer@local.dev",
+      "createdAt": "2026-05-04T14:14:03.983Z",
+      "updatedAt": "2026-05-04T14:14:03.983Z"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "sub_9WEjFtVxeB1M8I0p",
+      "userId": "usr_vpZjaNaajd9iQ3W8",
+      "tier": "free_trial",
+      "status": "active",
+      "productLimit": 5,
+      "storageLimitGB": 5,
+      "commissionRate": 10,
+      "currentProductCount": 1,
+      "currentStorageBytes": 13,
+      "billingCycle": "monthly",
+      "currentPeriodStart": "2026-05-04T14:14:03.099Z",
+      "currentPeriodEnd": "2026-06-03T14:14:03.099Z",
+      "cancelAtPeriodEnd": false,
+      "failedPaymentAttempts": 0,
+      "createdAt": "2026-05-04T14:14:03.099Z",
+      "updatedAt": "2026-05-04T14:15:13.153Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd_JOZCki308POvqoEb",
+      "sellerId": "usr_vpZjaNaajd9iQ3W8",
+      "title": "Sec3",
+      "description": "product to verify",
+      "priceCents": 1000,
+      "categoryIds": [
+        "cat_EMcx5xFOAEiGI8oz"
+      ],
+      "files": [
+        {
+          "fileId": "fil_sdlyniSHFYNPcFDE",
+          "fileName": "legit.txt",
+          "fileSize": 13,
+          "fileType": "text/plain",
+          "filePath": "products/prd_JOZCki308POvqoEb/1777904113116_legit.txt",
+          "version": 1,
+          "uploadedAt": "2026-05-04T14:15:13.153Z"
+        }
+      ],
+      "currentVersion": 1,
+      "productType": "software",
+      "isSoftware": true,
+      "images": [],
+      "thumbnailUrl": "",
+      "status": "active",
+      "viewCount": 0,
+      "purchaseCount": 1,
+      "averageRating": 0,
+      "reviewCount": 0,
+      "isFeatured": false,
+      "isTrending": false,
+      "createdAt": "2026-05-04T14:14:54.526Z",
+      "updatedAt": "2026-05-04T14:15:13.153Z",
+      "moderatedBy": "usr_Jfv5fb56lpoa9AKz",
+      "moderatedAt": "2026-05-04T14:14:54.992Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_EMcx5xFOAEiGI8oz",
+      "name": "Software",
+      "slug": "software",
+      "description": "Apps, plugins, scripts",
+      "parentId": null,
+      "level": 0,
+      "path": "software",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.360Z",
+      "updatedAt": "2026-05-04T14:14:02.360Z"
+    },
+    {
+      "id": "cat_eUDMibwevwUXvbVI",
+      "name": "Productivity",
+      "slug": "productivity",
+      "description": "",
+      "parentId": "cat_EMcx5xFOAEiGI8oz",
+      "level": 1,
+      "path": "software/productivity",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    },
+    {
+      "id": "cat_x5MlVsWPl8RQ4lbN",
+      "name": "Templates",
+      "slug": "templates",
+      "description": "Design and document templates",
+      "parentId": null,
+      "level": 0,
+      "path": "templates",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    },
+    {
+      "id": "cat_HVD9KRKb0HTo5iWn",
+      "name": "Courses",
+      "slug": "courses",
+      "description": "Educational content",
+      "parentId": null,
+      "level": 0,
+      "path": "courses",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    },
+    {
+      "id": "cat_aCX6yTe0vey9C4Q1",
+      "name": "3D Models",
+      "slug": "3d-models",
+      "description": "",
+      "parentId": null,
+      "level": 0,
+      "path": "3d-models",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    },
+    {
+      "id": "cat_FfuqxX7wAxlg3gfS",
+      "name": "Audio",
+      "slug": "audio",
+      "description": "",
+      "parentId": null,
+      "level": 0,
+      "path": "audio",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    },
+    {
+      "id": "cat_lJlDa1gVlHb2iBae",
+      "name": "Video",
+      "slug": "video",
+      "description": "",
+      "parentId": null,
+      "level": 0,
+      "path": "video",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    },
+    {
+      "id": "cat_BnpgVO5uW3O8boE3",
+      "name": "eBooks",
+      "slug": "ebooks",
+      "description": "",
+      "parentId": null,
+      "level": 0,
+      "path": "ebooks",
+      "productCount": 0,
+      "isActive": true,
+      "createdAt": "2026-05-04T14:14:02.361Z",
+      "updatedAt": "2026-05-04T14:14:02.361Z"
+    }
+  ],
+  "orders": [
+    {
+      "customerId": "usr_an4oP9WI6B7C8jge",
+      "items": [
+        {
+          "productId": "prd_JOZCki308POvqoEb",
+          "sellerId": "usr_vpZjaNaajd9iQ3W8",
+          "title": "Sec3",
+          "priceCents": 1000,
+          "commissionRate": 10,
+          "commissionCents": 100,
+          "sellerPayoutCents": 900,
+          "licenseKey": "WBSS7-2FS3Q-GDT9J-2NNDG-8VL0C",
+          "downloadToken": "h0nqxn0h4xxVwAUyHyYSX-UdfbHKdLC6d2d3SWSrlEb7qalI",
+          "downloadTokenExpiry": "2026-06-03T14:14:55.207Z",
+          "downloadCount": 0
+        }
+      ],
+      "subtotalCents": 1000,
+      "discountCents": 0,
+      "totalCents": 1000,
+      "totalCommissionCents": 100,
+      "totalSellerPayoutCents": 900,
+      "paddleTransactionId": "ptx_7Hjx37QjzOdCugus",
+      "paddleCheckoutId": "null",
+      "paymentStatus": "completed",
+      "fraudScore": 0,
+      "fraudFlags": [],
+      "requiresReview": false,
+      "id": "ord_EZiPCoLICf2JUVUH",
+      "createdAt": "2026-05-04T14:14:55.208Z",
+      "updatedAt": "2026-05-04T14:14:55.208Z"
+    }
+  ],
+  "reviews": [],
+  "discountCodes": [],
+  "bundles": [],
+  "affiliates": [],
+  "affiliateClicks": [],
+  "commissions": [],
+  "payouts": [],
+  "sessions": [],
+  "carts": [],
+  "files": [],
+  "downloadLogs": [],
+  "events": [],
+  "authAttempts": [
+    {
+      "id": "aut_9EIsL9GC6xhh5E5i",
+      "email": "customer@local.dev",
+      "ip": "::1",
+      "success": false,
+      "at": "2026-05-04T14:14:00.987Z"
+    },
+    {
+      "id": "aut_DsJLTLX3cXqp59yo",
+      "email": "seller@local.dev",
+      "ip": "::1",
+      "success": false,
+      "at": "2026-05-04T14:14:01.143Z"
+    },
+    {
+      "id": "aut_FgNvvxWA99lR0I9b",
+      "email": "admin@local.dev",
+      "ip": "::1",
+      "success": false,
+      "at": "2026-05-04T14:14:01.271Z"
+    },
+    {
+      "id": "aut_M0RoIS1nbbWQ4DR4",
+      "email": "seller@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-04T14:14:53.051Z"
+    },
+    {
+      "id": "aut_lO1ZJ4S1iYa1CfOd",
+      "email": "customer@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-04T14:14:53.585Z"
+    },
+    {
+      "id": "aut_sK6fM5oW0BKYvP9V",
+      "email": "admin@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-04T14:14:54.113Z"
+    }
+  ]
+}
