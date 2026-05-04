@@ -7,7 +7,7 @@ export const Card: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 }) => (
   <div
     className={cn(
-      "rounded-lg border border-border bg-card text-card-foreground shadow-sm",
+      "rounded-xl border border-[color:var(--border)] bg-[color:var(--card)] text-[color:var(--card-foreground)] shadow-[0_1px_2px_rgba(0,0,0,0.04)]",
       className,
     )}
     {...props}
@@ -17,14 +17,14 @@ export const Card: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 export const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
-}) => <div className={cn("flex flex-col space-y-1.5 p-5", className)} {...props} />;
+}) => <div className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />;
 
 export const CardTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => (
   <div
-    className={cn("text-lg font-semibold leading-none tracking-tight", className)}
+    className={cn("text-base font-semibold leading-none tracking-tight", className)}
     {...props}
   />
 );
@@ -32,4 +32,4 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 export const CardContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
-}) => <div className={cn("p-5 pt-0", className)} {...props} />;
+}) => <div className={cn("p-6 pt-0", className)} {...props} />;

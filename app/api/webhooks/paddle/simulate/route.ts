@@ -58,5 +58,5 @@ export async function POST(req: NextRequest) {
     affiliateCookie: readAffiliateCookie(),
   });
   clearCart();
-  return NextResponse.redirect(new URL(`/orders/${order.id}`, req.url));
+  return NextResponse.redirect(new URL(`/orders/${order.id}?new=1`, req.url));
 }

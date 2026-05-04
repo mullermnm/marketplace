@@ -22,7 +22,7 @@ export function AddToCartButton({ productId }: { productId: string }) {
     } else toast.error("Failed");
   }
   return (
-    <Button onClick={add} disabled={busy} className="w-full" size="lg">
+    <Button onClick={add} disabled={busy} className="w-full" size="xl" variant="primary">
       {busy ? "Adding..." : "Add to cart"}
     </Button>
   );

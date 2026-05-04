@@ -6,8 +6,8 @@ import { Footer } from "@/src/components/layout/Footer";
 import { ensureSeed } from "@/src/lib/services/seed";
 
 export const metadata: Metadata = {
-  title: "DigiMart — Digital Products Marketplace",
-  description: "Multi-vendor marketplace for digital products",
+  title: "Plinth — Marketplace for digital makers",
+  description: "Buy and sell digital products. Templates, software, courses, audio, 3D models — instant download.",
 };
 
 export default async function RootLayout({
@@ -19,7 +19,7 @@ export default async function RootLayout({
       <body className="antialiased min-h-screen flex flex-col">
         <Providers>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main id="main" className="flex-1">{children}</main>
           <Footer />
         </Providers>
       </body>

@@ -41,13 +41,16 @@ export function sellerAnalytics(sellerId: string) {
   };
 }
 
-export function adminAnalytics() {
+export function adminAnalytics(range?: { from: Date; to: Date }) {
   const orders = ordersRepo.all().filter((o) => o.paymentStatus === "completed");
   let gmv = 0;
   let platformRev = 0;
   let sellerRev = 0;
   for (const o of orders) {
-    if (!inMonth(o.createdAt)) continue;
+    const t = new Date(o.createdAt).getTime();
+    if (range) {
+      if (t < range.from.getTime() || t >= range.to.getTime()) continue;
+    } else if (!inMonth(o.createdAt)) continue;
     gmv += o.totalCents;
     platformRev += o.totalCommissionCents;
     sellerRev += o.totalSellerPayoutCents;

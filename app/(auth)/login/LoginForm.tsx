@@ -36,10 +36,15 @@ export function LoginForm() {
         <Input id="email" name="email" type="email" required autoComplete="email" />
       </div>
       <div>
-        <Label htmlFor="password">Password</Label>
+        <div className="flex items-baseline justify-between mb-1.5">
+          <Label htmlFor="password" className="mb-0">Password</Label>
+          <a href="/forgot-password" className="text-[10px] uppercase tracking-wide text-[color:var(--fg-muted)] hover:text-[color:var(--fg)]">
+            Forgot?
+          </a>
+        </div>
         <Input id="password" name="password" type="password" required autoComplete="current-password" />
       </div>
-      <Button type="submit" disabled={busy} className="w-full">
+      <Button type="submit" variant="primary" disabled={busy} className="w-full">
         {busy ? "Logging in..." : "Log in"}
       </Button>
     </form>

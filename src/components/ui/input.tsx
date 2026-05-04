@@ -8,7 +8,9 @@ export const Input = React.forwardRef<
   <input
     ref={ref}
     className={cn(
-      "flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50",
+      "flex h-10 w-full rounded-md border border-[color:var(--border)] bg-[color:var(--card)] px-3.5 py-2 text-sm shadow-sm placeholder:text-[color:var(--fg-muted)]/70 transition-all",
+      "focus-visible:outline-none focus-visible:border-[color:var(--brand-500)] focus-visible:shadow-[0_0_0_3px_rgba(124,58,237,0.15)]",
+      "disabled:cursor-not-allowed disabled:opacity-50",
       className,
     )}
     {...props}
@@ -23,7 +25,9 @@ export const Textarea = React.forwardRef<
   <textarea
     ref={ref}
     className={cn(
-      "flex min-h-[80px] w-full rounded-md border border-border bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50",
+      "flex min-h-[100px] w-full rounded-md border border-[color:var(--border)] bg-[color:var(--card)] px-3.5 py-2.5 text-sm shadow-sm placeholder:text-[color:var(--fg-muted)]/70 transition-all",
+      "focus-visible:outline-none focus-visible:border-[color:var(--brand-500)] focus-visible:shadow-[0_0_0_3px_rgba(124,58,237,0.15)]",
+      "disabled:cursor-not-allowed disabled:opacity-50",
       className,
     )}
     {...props}
@@ -37,7 +41,7 @@ export const Label: React.FC<React.LabelHTMLAttributes<HTMLLabelElement>> = ({
 }) => (
   <label
     className={cn(
-      "text-sm font-medium text-foreground/90 mb-1 block",
+      "text-xs font-medium tracking-wide uppercase text-[color:var(--fg-muted)] mb-1.5 block",
       className,
     )}
     {...props}
