@@ -3,18 +3,23 @@ import { getSession } from "@/src/lib/auth/session";
 import { createProduct } from "@/src/lib/services/products";
 import { productCreateSchema } from "@/src/lib/validation/schemas";
 import { productsRepo } from "@/src/lib/repos/products";
+import { formatError } from "@/src/lib/validation/errors";
 
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!session || session.role !== "seller")
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!session) return NextResponse.json({ error: "Please log in" }, { status: 401 });
+  if (session.role !== "seller")
+    return NextResponse.json(
+      { error: "Only approved sellers can create products. Apply at /seller/onboarding." },
+      { status: 403 },
+    );
   try {
     const data = productCreateSchema.parse(await req.json());
     const result = createProduct({ sellerId: session.uid, ...data });
     if (!result.ok) return NextResponse.json({ error: result.error }, { status: 400 });
     return NextResponse.json({ ok: true, product: result.product });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 400 });
+  } catch (e) {
+    return NextResponse.json({ error: formatError(e) }, { status: 400 });
   }
 }
 

@@ -41,10 +41,10 @@ export const sellerOnboardingSchema = z.object({
 });
 
 export const productCreateSchema = z.object({
-  title: z.string().min(3).max(140),
-  description: z.string().min(10).max(8000),
-  priceCents: z.number().int().nonnegative().max(10_000_000),
-  categoryIds: z.array(z.string()).min(1),
+  title: z.string().min(3, "Title must be at least 3 characters").max(140),
+  description: z.string().min(10, "Description must be at least 10 characters").max(8000),
+  priceCents: z.number({ invalid_type_error: "Price must be a number" }).int().nonnegative("Price can't be negative").max(10_000_000),
+  categoryIds: z.array(z.string()).min(1, "Pick at least one category"),
   productType: z.enum([
     "pdf",
     "video",

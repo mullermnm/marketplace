@@ -7,7 +7,7 @@ import { formatMoney } from "@/src/lib/utils";
 import { Badge } from "@/src/components/ui/badge";
 import Link from "next/link";
 import { Download, Key, CheckCircle2, AlertCircle, Receipt } from "lucide-react";
-import { OrderItemActions } from "./OrderItemActions";
+import { CopyButton } from "./OrderItemActions";
 import { RefundRequestForm } from "./RefundRequestForm";
 
 export default async function OrderDetail({
@@ -176,5 +176,5 @@ function Row({
 }
 
 function CopyKey({ value }: { value: string }) {
-  return <OrderItemActions.Copy value={value} />;
+  return <CopyButton value={value} />;
 }

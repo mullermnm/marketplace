@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-function CopyButton({ value }: { value: string }) {
+export function CopyButton({ value }: { value: string }) {
   const [done, setDone] = useState(false);
   return (
     <button
@@ -21,5 +21,3 @@ function CopyButton({ value }: { value: string }) {
     </button>
   );
 }
-
-export const OrderItemActions = { Copy: CopyButton };

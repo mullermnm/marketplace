@@ -3,18 +3,18 @@
     {
       "email": "admin@local.dev",
       "emailVerified": true,
-      "passwordHash": "$2a$12$rmRCIRNDhwiWdqr1BjFBpOQB65bvtTKbXo4kYw.peodo1zA7H.lkC",
+      "passwordHash": "$2a$12$JIsQtUSR4iwO9ryY0X.O/ezqqz6/Vksro2uN38SGSkOhcEG.niCI6",
       "name": "Admin",
       "role": "admin",
-      "id": "usr_4BdT4b9VlM2WoSpo",
+      "id": "usr_twUWHkqR7cjacbV2",
       "emailLower": "admin@local.dev",
-      "createdAt": "2026-05-05T18:34:10.231Z",
-      "updatedAt": "2026-05-05T18:34:10.231Z"
+      "createdAt": "2026-05-05T20:11:19.554Z",
+      "updatedAt": "2026-05-05T20:11:19.554Z"
     },
     {
       "email": "seller@local.dev",
       "emailVerified": true,
-      "passwordHash": "$2a$12$JUyzZcrCFIMoITResCPs2uT0Agto/6XwffVMgaPap/fYbDG2OFVe6",
+      "passwordHash": "$2a$12$cVVk.BLDk4DyDfk51qaNj.jQB5fllyEwOzem6O4oksaqednc6Icli",
       "name": "Demo Seller",
       "role": "seller",
       "sellerProfile": {
@@ -22,49 +22,75 @@
         "description": "Selling demo digital goods",
         "contactEmail": "seller@local.dev",
         "status": "approved",
-        "approvedAt": "2026-05-05T18:34:10.918Z"
+        "approvedAt": "2026-05-05T20:11:19.942Z"
       },
-      "id": "usr_y7RzbxiaLRHe8HiU",
+      "id": "usr_176t0hEDZlQlTx4u",
       "emailLower": "seller@local.dev",
-      "createdAt": "2026-05-05T18:34:10.918Z",
-      "updatedAt": "2026-05-05T18:34:10.918Z"
+      "createdAt": "2026-05-05T20:11:19.942Z",
+      "updatedAt": "2026-05-05T20:11:19.942Z"
     },
     {
       "email": "customer@local.dev",
       "emailVerified": true,
-      "passwordHash": "$2a$12$BIiuv5a0eSBL0XC3HbfrzedXA34ifOzdZGcYJS2.Vl8Oi2B6ysJrq",
+      "passwordHash": "$2a$12$pHgJ5lE.SRV0OV1tB1a/yO09A7XJKHIQxKm2TjIEnJwVUEXTKWTv.",
       "name": "Demo Customer",
       "role": "customer",
-      "id": "usr_Qoj3ceAqXfzNSTj8",
+      "id": "usr_hSAw6mfeedlB85Kr",
       "emailLower": "customer@local.dev",
-      "createdAt": "2026-05-05T18:34:11.805Z",
-      "updatedAt": "2026-05-05T18:34:11.805Z"
+      "createdAt": "2026-05-05T20:11:20.304Z",
+      "updatedAt": "2026-05-05T20:11:20.304Z"
     }
   ],
   "subscriptions": [
     {
-      "id": "sub_Xm5khrn97ENVCA70",
-      "userId": "usr_y7RzbxiaLRHe8HiU",
+      "id": "sub_3iAbjU7NEWQlSOoM",
+      "userId": "usr_176t0hEDZlQlTx4u",
       "tier": "free_trial",
       "status": "active",
       "productLimit": 5,
       "storageLimitGB": 5,
       "commissionRate": 10,
-      "currentProductCount": 0,
+      "currentProductCount": 1,
       "currentStorageBytes": 0,
       "billingCycle": "monthly",
-      "currentPeriodStart": "2026-05-05T18:34:10.919Z",
-      "currentPeriodEnd": "2026-06-04T18:34:10.919Z",
+      "currentPeriodStart": "2026-05-05T20:11:19.942Z",
+      "currentPeriodEnd": "2026-06-04T20:11:19.942Z",
       "cancelAtPeriodEnd": false,
       "failedPaymentAttempts": 0,
-      "createdAt": "2026-05-05T18:34:10.919Z",
-      "updatedAt": "2026-05-05T18:34:10.919Z"
+      "createdAt": "2026-05-05T20:11:19.942Z",
+      "updatedAt": "2026-05-05T20:11:21.408Z"
     }
   ],
-  "products": [],
+  "products": [
+    {
+      "id": "prd_IlG5AuvbEasTKhfS",
+      "sellerId": "usr_176t0hEDZlQlTx4u",
+      "title": "My Demo Product",
+      "description": "This is a great test product for sellers",
+      "priceCents": 1999,
+      "categoryIds": [
+        ""
+      ],
+      "files": [],
+      "currentVersion": 1,
+      "productType": "pdf",
+      "isSoftware": false,
+      "images": [],
+      "thumbnailUrl": "",
+      "status": "pending_review",
+      "viewCount": 0,
+      "purchaseCount": 0,
+      "averageRating": 0,
+      "reviewCount": 0,
+      "isFeatured": false,
+      "isTrending": false,
+      "createdAt": "2026-05-05T20:11:21.407Z",
+      "updatedAt": "2026-05-05T20:11:21.407Z"
+    }
+  ],
   "categories": [
     {
-      "id": "cat_cc10u5lXQ8RDvdXA",
+      "id": "cat_f21SPY980if5QiCA",
       "name": "Software",
       "slug": "software",
       "description": "Apps, plugins, scripts",
@@ -73,24 +99,24 @@
       "path": "software",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.238Z",
-      "updatedAt": "2026-05-05T18:34:10.238Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_eEHtTf9yM4VvYVnd",
+      "id": "cat_MtXt7MprS02Pqtn4",
       "name": "Productivity",
       "slug": "productivity",
       "description": "",
-      "parentId": "cat_cc10u5lXQ8RDvdXA",
+      "parentId": "cat_f21SPY980if5QiCA",
       "level": 1,
       "path": "software/productivity",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.238Z",
-      "updatedAt": "2026-05-05T18:34:10.238Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_oz5zIDrc9YZyjetv",
+      "id": "cat_XXimVkM5NnSJSzE9",
       "name": "Templates",
       "slug": "templates",
       "description": "Design and document templates",
@@ -99,11 +125,11 @@
       "path": "templates",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.239Z",
-      "updatedAt": "2026-05-05T18:34:10.239Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_maOL5yp60bgOiK30",
+      "id": "cat_SXJBLYpxvFy138qf",
       "name": "Courses",
       "slug": "courses",
       "description": "Educational content",
@@ -112,11 +138,11 @@
       "path": "courses",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.239Z",
-      "updatedAt": "2026-05-05T18:34:10.239Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_zqvvgUzJMIEfam7u",
+      "id": "cat_0eUDxeWaDc3UOOn2",
       "name": "3D Models",
       "slug": "3d-models",
       "description": "",
@@ -125,11 +151,11 @@
       "path": "3d-models",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.239Z",
-      "updatedAt": "2026-05-05T18:34:10.239Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_HYY8nHIKhV7Kxk7k",
+      "id": "cat_3ebbEZgOIhbyD8TN",
       "name": "Audio",
       "slug": "audio",
       "description": "",
@@ -138,11 +164,11 @@
       "path": "audio",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.240Z",
-      "updatedAt": "2026-05-05T18:34:10.240Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_x7xfkkdniG0wmzcJ",
+      "id": "cat_7x27uF1BWKJXLjP9",
       "name": "Video",
       "slug": "video",
       "description": "",
@@ -151,11 +177,11 @@
       "path": "video",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.240Z",
-      "updatedAt": "2026-05-05T18:34:10.240Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     },
     {
-      "id": "cat_a6uSbqT1ziH7iSPZ",
+      "id": "cat_Ety8WL7KlzqQbG2o",
       "name": "eBooks",
       "slug": "ebooks",
       "description": "",
@@ -164,8 +190,8 @@
       "path": "ebooks",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-05T18:34:10.240Z",
-      "updatedAt": "2026-05-05T18:34:10.240Z"
+      "createdAt": "2026-05-05T20:11:19.558Z",
+      "updatedAt": "2026-05-05T20:11:19.558Z"
     }
   ],
   "orders": [],
@@ -181,5 +207,13 @@
   "files": [],
   "downloadLogs": [],
   "events": [],
-  "authAttempts": []
+  "authAttempts": [
+    {
+      "id": "aut_yNy202X8QGLasNKC",
+      "email": "seller@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-05T20:11:20.843Z"
+    }
+  ]
 }
