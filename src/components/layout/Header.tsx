@@ -35,11 +35,11 @@ export async function Header() {
           </nav>
           <HeaderSearch />
           <div className="ml-auto flex items-center gap-1 sm:gap-2">
-            <Link href="/cart" aria-label="Cart">
-              <Button variant="ghost" size="icon">
+            <Button asChild variant="ghost" size="icon">
+              <Link href="/cart" aria-label="Cart">
                 <ShoppingBag className="w-[18px] h-[18px]" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             <ThemeToggle />
             {session ? (
               <>
@@ -59,12 +59,12 @@ export async function Header() {
               </>
             ) : (
               <>
-                <Link href="/login" className="hidden sm:inline-block">
-                  <Button variant="ghost" size="sm">Log in</Button>
-                </Link>
-                <Link href="/register" className="hidden sm:inline-block">
-                  <Button variant="primary" size="sm">Get started</Button>
-                </Link>
+                <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+                  <Link href="/login">Log in</Link>
+                </Button>
+                <Button asChild variant="primary" size="sm" className="hidden sm:inline-flex">
+                  <Link href="/register">Get started</Link>
+                </Button>
               </>
             )}
             <MobileMenu loggedIn={!!session} role={session?.role} />

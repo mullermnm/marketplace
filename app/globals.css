@@ -141,6 +141,7 @@ body {
   .gradient-border { position: relative; isolation: isolate; }
   .gradient-border::before {
     content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit;
+    pointer-events: none;
     background: conic-gradient(from var(--angle, 0deg), var(--brand-500), var(--brand-300), var(--brand-700), var(--brand-500));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);

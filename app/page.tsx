@@ -37,13 +37,15 @@ export default function Home() {
             keep what you bought — forever.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href="/products"><Button variant="primary" size="xl">Discover the catalog</Button></Link>
-            <Link href="/seller/onboarding">
-              <Button variant="outline" size="xl">
+            <Button asChild variant="primary" size="xl">
+              <Link href="/products">Discover the catalog</Link>
+            </Button>
+            <Button asChild variant="outline" size="xl">
+              <Link href="/seller/onboarding">
                 Start selling
                 <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-[color:var(--fg-muted)]">
             <span className="flex items-center gap-2"><ShieldCheck className="w-3.5 h-3.5" /> Paddle merchant of record</span>
@@ -192,8 +194,12 @@ export default function Home() {
             Free trial. No credit card. Approved within a day.
           </p>
           <div className="mt-6 flex justify-center gap-3">
-            <Link href="/seller/onboarding"><Button variant="primary" size="lg">Become a seller</Button></Link>
-            <Link href="/products"><Button variant="outline" size="lg">Browse first</Button></Link>
+            <Button asChild variant="primary" size="lg">
+              <Link href="/seller/onboarding">Become a seller</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/products">Browse first</Link>
+            </Button>
           </div>
         </div>
       </section>

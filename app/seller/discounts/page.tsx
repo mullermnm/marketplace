@@ -1,42 +1,66 @@
 import { requireRole } from "@/src/lib/auth/guards";
 import { discountsRepo } from "@/src/lib/repos/misc";
 import { DiscountForm } from "./DiscountForm";
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { formatMoney } from "@/src/lib/utils";
 import { productsRepo } from "@/src/lib/repos/products";
+import { Badge } from "@/src/components/ui/badge";
+import { DashboardShell } from "@/src/components/dashboard/DashboardShell";
+import { Section, EmptyState } from "@/src/components/dashboard/Section";
+import { sellerNav } from "@/src/components/dashboard/sellerNav";
 
 export default async function DiscountsPage() {
   const session = await requireRole("seller");
   const codes = discountsRepo.bySeller(session.uid);
   const products = productsRepo.bySeller(session.uid);
+  const totalRevenue = codes.reduce((s, c) => s + c.totalRevenueCents, 0);
+  const totalUses = codes.reduce((s, c) => s + c.currentUses, 0);
   return (
-    <div className="mx-auto max-w-4xl py-8 px-4 space-y-6">
-      <h1 className="text-2xl font-semibold">Discount codes</h1>
-      <Card>
-        <CardHeader><CardTitle>Create new code</CardTitle></CardHeader>
-        <CardContent><DiscountForm products={products.map((p) => ({ id: p.id, title: p.title }))} /></CardContent>
-      </Card>
-      <Card>
-        <CardHeader><CardTitle>Existing</CardTitle></CardHeader>
-        <CardContent>
-          {codes.length === 0 ? (
-            <p className="text-sm text-muted-foreground">None yet.</p>
-          ) : (
-            <ul className="text-sm space-y-2">
-              {codes.map((c) => (
-                <li key={c.id} className="flex justify-between border-b border-border pb-2 last:border-0">
-                  <div>
-                    <code className="bg-muted px-1.5 py-0.5 rounded">{c.code}</code> — {c.discountType === "percentage" ? `${c.discountValue}%` : formatMoney(c.discountValue)}
-                  </div>
-                  <span className="text-muted-foreground">
-                    {c.currentUses} use{c.currentUses !== 1 && "s"} · revenue {formatMoney(c.totalRevenueCents)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+    <DashboardShell
+      eyebrow="Seller studio"
+      title="Discount codes"
+      description={`${codes.length} code${codes.length === 1 ? "" : "s"} · ${totalUses} use${totalUses === 1 ? "" : "s"} · ${formatMoney(totalRevenue)} attributed revenue.`}
+      nav={sellerNav(session.uid)}
+      active="/seller/discounts"
+    >
+      <Section title="Create new code">
+        <DiscountForm products={products.map((p) => ({ id: p.id, title: p.title }))} />
+      </Section>
+
+      <Section title="Existing codes" hint={`${codes.length} total`}>
+        {codes.length === 0 ? (
+          <EmptyState title="No codes yet" description="Run a promo by giving customers a code." />
+        ) : (
+          <ul className="divide-y divide-[color:var(--border)] -mx-1">
+            {codes.map((c) => (
+              <li key={c.id} className="px-1 py-3 flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <code className="bg-[color:var(--muted)] px-2 py-0.5 rounded font-mono text-sm">
+                    {c.code}
+                  </code>
+                  <p className="text-xs text-[color:var(--fg-muted)] mt-1">
+                    {c.discountType === "percentage" ? `${c.discountValue}% off` : `${formatMoney(c.discountValue)} off`}
+                    {" · valid "}
+                    {new Date(c.startDate).toLocaleDateString()} → {new Date(c.endDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="text-right text-xs">
+                  <p>
+                    <span className="font-semibold tabular-nums text-[color:var(--fg)]">{c.currentUses}</span>
+                    {c.maxUses && <span className="text-[color:var(--fg-muted)]"> / {c.maxUses}</span>}
+                    <span className="text-[color:var(--fg-muted)]"> uses</span>
+                  </p>
+                  <p className="text-[color:var(--fg-muted)] tabular-nums">
+                    {formatMoney(c.totalRevenueCents)} revenue
+                  </p>
+                </div>
+                <Badge variant={c.isActive ? "success" : "outline"}>
+                  {c.isActive ? "Active" : "Inactive"}
+                </Badge>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Section>
+    </DashboardShell>
   );
 }

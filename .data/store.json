@@ -3,18 +3,18 @@
     {
       "email": "admin@local.dev",
       "emailVerified": true,
-      "passwordHash": "$2a$12$fG5tVQ4EuDRsLJWmffqrT.N1qdZTtQ70BHIPLdxNKCaaZAEmJXxi.",
+      "passwordHash": "$2a$12$rmRCIRNDhwiWdqr1BjFBpOQB65bvtTKbXo4kYw.peodo1zA7H.lkC",
       "name": "Admin",
       "role": "admin",
-      "id": "usr_lgJvrM3rlEUWEFFv",
+      "id": "usr_4BdT4b9VlM2WoSpo",
       "emailLower": "admin@local.dev",
-      "createdAt": "2026-05-04T20:13:26.680Z",
-      "updatedAt": "2026-05-04T20:13:26.680Z"
+      "createdAt": "2026-05-05T18:34:10.231Z",
+      "updatedAt": "2026-05-05T18:34:10.231Z"
     },
     {
       "email": "seller@local.dev",
       "emailVerified": true,
-      "passwordHash": "$2a$12$Ojcmh9dXnWaQMej48BdLn.MfW2NebjM0ULdmddNWs0PvU.GVgFW26",
+      "passwordHash": "$2a$12$JUyzZcrCFIMoITResCPs2uT0Agto/6XwffVMgaPap/fYbDG2OFVe6",
       "name": "Demo Seller",
       "role": "seller",
       "sellerProfile": {
@@ -22,88 +22,49 @@
         "description": "Selling demo digital goods",
         "contactEmail": "seller@local.dev",
         "status": "approved",
-        "approvedAt": "2026-05-04T20:13:28.118Z"
+        "approvedAt": "2026-05-05T18:34:10.918Z"
       },
-      "id": "usr_VXTf73a8qq6W0ASi",
+      "id": "usr_y7RzbxiaLRHe8HiU",
       "emailLower": "seller@local.dev",
-      "createdAt": "2026-05-04T20:13:28.118Z",
-      "updatedAt": "2026-05-04T20:13:28.118Z"
+      "createdAt": "2026-05-05T18:34:10.918Z",
+      "updatedAt": "2026-05-05T18:34:10.918Z"
     },
     {
       "email": "customer@local.dev",
       "emailVerified": true,
-      "passwordHash": "$2a$12$BEjadIrzXwHZeL0rEDnco.uSbBOdtFnY4j6NzIzzIgpSIijBUCXL.",
+      "passwordHash": "$2a$12$BIiuv5a0eSBL0XC3HbfrzedXA34ifOzdZGcYJS2.Vl8Oi2B6ysJrq",
       "name": "Demo Customer",
       "role": "customer",
-      "id": "usr_TzYBB1Caw4wbRQNG",
+      "id": "usr_Qoj3ceAqXfzNSTj8",
       "emailLower": "customer@local.dev",
-      "createdAt": "2026-05-04T20:13:29.536Z",
-      "updatedAt": "2026-05-04T20:13:29.536Z"
-    },
-    {
-      "email": "mullermnm1234@gmail.com",
-      "emailVerified": false,
-      "passwordHash": "$2a$12$r5RyzCu12o7OmI6j5T5VvuWD/gZur.tw1dCdH/kKZXMbnlimDT8RW",
-      "name": "Mulugeta Gebrekirstos",
-      "role": "customer",
-      "id": "usr_CVsghoQYS4TpZEag",
-      "emailLower": "mullermnm1234@gmail.com",
-      "createdAt": "2026-05-04T21:12:33.047Z",
-      "updatedAt": "2026-05-04T21:12:33.047Z"
+      "createdAt": "2026-05-05T18:34:11.805Z",
+      "updatedAt": "2026-05-05T18:34:11.805Z"
     }
   ],
   "subscriptions": [
     {
-      "id": "sub_m8zuAy6sGCT5wSgy",
-      "userId": "usr_VXTf73a8qq6W0ASi",
+      "id": "sub_Xm5khrn97ENVCA70",
+      "userId": "usr_y7RzbxiaLRHe8HiU",
       "tier": "free_trial",
       "status": "active",
       "productLimit": 5,
       "storageLimitGB": 5,
       "commissionRate": 10,
-      "currentProductCount": 1,
+      "currentProductCount": 0,
       "currentStorageBytes": 0,
       "billingCycle": "monthly",
-      "currentPeriodStart": "2026-05-04T20:13:28.120Z",
-      "currentPeriodEnd": "2026-06-03T20:13:28.120Z",
+      "currentPeriodStart": "2026-05-05T18:34:10.919Z",
+      "currentPeriodEnd": "2026-06-04T18:34:10.919Z",
       "cancelAtPeriodEnd": false,
       "failedPaymentAttempts": 0,
-      "createdAt": "2026-05-04T20:13:28.120Z",
-      "updatedAt": "2026-05-04T20:13:37.627Z"
+      "createdAt": "2026-05-05T18:34:10.919Z",
+      "updatedAt": "2026-05-05T18:34:10.919Z"
     }
   ],
-  "products": [
-    {
-      "id": "prd_WTTwU62ZQVCkAHvn",
-      "sellerId": "usr_VXTf73a8qq6W0ASi",
-      "title": "E2E Audit",
-      "description": "product for end-to-end audit",
-      "priceCents": 1499,
-      "categoryIds": [
-        "cat_VdPjiNM6h290mmmx"
-      ],
-      "files": [],
-      "currentVersion": 1,
-      "productType": "pdf",
-      "isSoftware": false,
-      "images": [],
-      "thumbnailUrl": "",
-      "status": "active",
-      "viewCount": 0,
-      "purchaseCount": 1,
-      "averageRating": 0,
-      "reviewCount": 0,
-      "isFeatured": false,
-      "isTrending": false,
-      "createdAt": "2026-05-04T20:13:37.626Z",
-      "updatedAt": "2026-05-04T20:13:38.906Z",
-      "moderatedBy": "usr_lgJvrM3rlEUWEFFv",
-      "moderatedAt": "2026-05-04T20:13:38.297Z"
-    }
-  ],
+  "products": [],
   "categories": [
     {
-      "id": "cat_VdPjiNM6h290mmmx",
+      "id": "cat_cc10u5lXQ8RDvdXA",
       "name": "Software",
       "slug": "software",
       "description": "Apps, plugins, scripts",
@@ -112,24 +73,24 @@
       "path": "software",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.689Z",
-      "updatedAt": "2026-05-04T20:13:26.689Z"
+      "createdAt": "2026-05-05T18:34:10.238Z",
+      "updatedAt": "2026-05-05T18:34:10.238Z"
     },
     {
-      "id": "cat_u5JvaxUnSoMrzfjY",
+      "id": "cat_eEHtTf9yM4VvYVnd",
       "name": "Productivity",
       "slug": "productivity",
       "description": "",
-      "parentId": "cat_VdPjiNM6h290mmmx",
+      "parentId": "cat_cc10u5lXQ8RDvdXA",
       "level": 1,
       "path": "software/productivity",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.693Z",
-      "updatedAt": "2026-05-04T20:13:26.693Z"
+      "createdAt": "2026-05-05T18:34:10.238Z",
+      "updatedAt": "2026-05-05T18:34:10.238Z"
     },
     {
-      "id": "cat_ktCKhTCiW3Yr9Rh3",
+      "id": "cat_oz5zIDrc9YZyjetv",
       "name": "Templates",
       "slug": "templates",
       "description": "Design and document templates",
@@ -138,11 +99,11 @@
       "path": "templates",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.694Z",
-      "updatedAt": "2026-05-04T20:13:26.694Z"
+      "createdAt": "2026-05-05T18:34:10.239Z",
+      "updatedAt": "2026-05-05T18:34:10.239Z"
     },
     {
-      "id": "cat_B9tofriAaqLPwmpG",
+      "id": "cat_maOL5yp60bgOiK30",
       "name": "Courses",
       "slug": "courses",
       "description": "Educational content",
@@ -151,11 +112,11 @@
       "path": "courses",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.694Z",
-      "updatedAt": "2026-05-04T20:13:26.694Z"
+      "createdAt": "2026-05-05T18:34:10.239Z",
+      "updatedAt": "2026-05-05T18:34:10.239Z"
     },
     {
-      "id": "cat_xq8hJA7PfndTIXeh",
+      "id": "cat_zqvvgUzJMIEfam7u",
       "name": "3D Models",
       "slug": "3d-models",
       "description": "",
@@ -164,11 +125,11 @@
       "path": "3d-models",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.694Z",
-      "updatedAt": "2026-05-04T20:13:26.694Z"
+      "createdAt": "2026-05-05T18:34:10.239Z",
+      "updatedAt": "2026-05-05T18:34:10.239Z"
     },
     {
-      "id": "cat_sreDfpkBWgHF3sLD",
+      "id": "cat_HYY8nHIKhV7Kxk7k",
       "name": "Audio",
       "slug": "audio",
       "description": "",
@@ -177,11 +138,11 @@
       "path": "audio",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.694Z",
-      "updatedAt": "2026-05-04T20:13:26.694Z"
+      "createdAt": "2026-05-05T18:34:10.240Z",
+      "updatedAt": "2026-05-05T18:34:10.240Z"
     },
     {
-      "id": "cat_SbpsqfQnm71fC68g",
+      "id": "cat_x7xfkkdniG0wmzcJ",
       "name": "Video",
       "slug": "video",
       "description": "",
@@ -190,11 +151,11 @@
       "path": "video",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.694Z",
-      "updatedAt": "2026-05-04T20:13:26.694Z"
+      "createdAt": "2026-05-05T18:34:10.240Z",
+      "updatedAt": "2026-05-05T18:34:10.240Z"
     },
     {
-      "id": "cat_68PBxxQ87My6cB9F",
+      "id": "cat_a6uSbqT1ziH7iSPZ",
       "name": "eBooks",
       "slug": "ebooks",
       "description": "",
@@ -203,44 +164,11 @@
       "path": "ebooks",
       "productCount": 0,
       "isActive": true,
-      "createdAt": "2026-05-04T20:13:26.694Z",
-      "updatedAt": "2026-05-04T20:13:26.694Z"
+      "createdAt": "2026-05-05T18:34:10.240Z",
+      "updatedAt": "2026-05-05T18:34:10.240Z"
     }
   ],
-  "orders": [
-    {
-      "customerId": "usr_TzYBB1Caw4wbRQNG",
-      "items": [
-        {
-          "productId": "prd_WTTwU62ZQVCkAHvn",
-          "sellerId": "usr_VXTf73a8qq6W0ASi",
-          "title": "E2E Audit",
-          "priceCents": 1499,
-          "commissionRate": 10,
-          "commissionCents": 150,
-          "sellerPayoutCents": 1349,
-          "downloadToken": "iREtuWBXVE2kH1m3sx5SQWEUx506AmWsqtv0btd7C6PebnlR",
-          "downloadTokenExpiry": "2026-06-03T20:13:38.905Z",
-          "downloadCount": 0
-        }
-      ],
-      "subtotalCents": 1499,
-      "discountCents": 0,
-      "totalCents": 1499,
-      "totalCommissionCents": 150,
-      "totalSellerPayoutCents": 1349,
-      "paddleTransactionId": "ptx_ieCjzHpkU9TMByZu",
-      "paddleCheckoutId": "null",
-      "paymentStatus": "completed",
-      "fraudScore": 0,
-      "fraudFlags": [],
-      "requiresReview": true,
-      "id": "ord_RV0NqVEydKCNUoDy",
-      "createdAt": "2026-05-04T20:13:38.906Z",
-      "updatedAt": "2026-05-04T20:13:40.055Z",
-      "refundReason": "changed my mind"
-    }
-  ],
+  "orders": [],
   "reviews": [],
   "discountCodes": [],
   "bundles": [],
@@ -252,51 +180,6 @@
   "carts": [],
   "files": [],
   "downloadLogs": [],
-  "events": [
-    {
-      "id": "rst_Zt5pQKce",
-      "token": "Zt5pQKceOm9FjGGnAAkYl8eu5osid6bEYctTtn8VG8LWDFES",
-      "userId": "usr_TzYBB1Caw4wbRQNG",
-      "expiresAt": "2026-05-04T22:13:31.976Z",
-      "used": false,
-      "kind": "password_reset"
-    }
-  ],
-  "authAttempts": [
-    {
-      "id": "aut_RGuOFdMjROry3fXw",
-      "email": "customer@local.dev",
-      "ip": "::1",
-      "success": true,
-      "at": "2026-05-04T20:13:33.750Z"
-    },
-    {
-      "id": "aut_8SRZA0BaBzvxCMJ6",
-      "email": "seller@local.dev",
-      "ip": "::1",
-      "success": true,
-      "at": "2026-05-04T20:13:35.337Z"
-    },
-    {
-      "id": "aut_zM2xtHtCfTIzJuX9",
-      "email": "admin@local.dev",
-      "ip": "::1",
-      "success": true,
-      "at": "2026-05-04T20:13:36.867Z"
-    },
-    {
-      "id": "aut_EFfC5wvJkaSliSzY",
-      "email": "mullermnm1234@gmail.com",
-      "ip": "::1",
-      "success": false,
-      "at": "2026-05-04T21:12:23.520Z"
-    },
-    {
-      "id": "aut_nhX2g1bULCGu0R1d",
-      "email": "mullermnm1234@gmail.com",
-      "ip": "::1",
-      "success": true,
-      "at": "2026-05-04T21:12:33.048Z"
-    }
-  ]
+  "events": [],
+  "authAttempts": []
 }

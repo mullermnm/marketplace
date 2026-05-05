@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "installCommand": "npm install",
+  "regions": ["iad1"],
+  "env": {
+    "USE_MEMORY_DB": "true",
+    "STORAGE_DRIVER": "local"
+  }
+}

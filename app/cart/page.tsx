@@ -27,7 +27,7 @@ export default function CartPage() {
             <p className="text-sm text-[color:var(--fg-muted)] mb-6">
               Discover digital products from creators worldwide.
             </p>
-            <Link href="/products"><Button variant="primary">Browse the marketplace</Button></Link>
+            <Button asChild variant="primary"><Link href="/products">Browse the marketplace</Link></Button>
           </CardContent>
         </Card>
       ) : (
