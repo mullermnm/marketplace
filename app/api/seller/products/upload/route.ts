@@ -24,7 +24,19 @@ export async function POST(req: NextRequest) {
   const buf = Buffer.from(await file.arrayBuffer());
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 200);
   const key = `products/${productId}/${Date.now()}_${safeName}`;
-  const stored = await storage().put(key, buf);
+  let stored;
+  try {
+    stored = await storage().put(key, buf);
+  } catch (e: any) {
+    console.error("[upload] storage.put failed", e);
+    return NextResponse.json(
+      {
+        error:
+          "File storage unavailable. On serverless hosts, configure S3-compatible storage. Local /tmp may be full.",
+      },
+      { status: 500 },
+    );
+  }
   try {
     if (newVersion) {
       await publishNewVersion(productId, {

@@ -1,7 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const DATA_FILE = path.join(process.cwd(), ".data", "store.json");
+// Vercel/Netlify serverless filesystems are read-only except /tmp.
+const isServerless =
+  !!process.env.VERCEL || !!process.env.NETLIFY || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+const DATA_FILE = isServerless
+  ? "/tmp/plinth-store.json"
+  : path.join(process.cwd(), ".data", "store.json");
 
 type Doc = { id: string; [k: string]: any };
 

@@ -9,7 +9,12 @@ export interface StorageProvider {
   remove(key: string): Promise<void>;
 }
 
-const ROOT = path.resolve(process.cwd(), process.env.STORAGE_LOCAL_PATH ?? "./.uploads");
+// Vercel/Netlify serverless filesystems are read-only except /tmp.
+const isServerless =
+  !!process.env.VERCEL || !!process.env.NETLIFY || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+const ROOT = isServerless
+  ? "/tmp/plinth-uploads"
+  : path.resolve(process.cwd(), process.env.STORAGE_LOCAL_PATH ?? "./.uploads");
 
 class LocalStorage implements StorageProvider {
   private async ensure() {

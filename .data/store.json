@@ -77,7 +77,7 @@
       "isSoftware": false,
       "images": [],
       "thumbnailUrl": "",
-      "status": "pending_review",
+      "status": "active",
       "viewCount": 0,
       "purchaseCount": 0,
       "averageRating": 0,
@@ -85,7 +85,9 @@
       "isFeatured": false,
       "isTrending": false,
       "createdAt": "2026-05-05T20:11:21.407Z",
-      "updatedAt": "2026-05-05T20:11:21.407Z"
+      "updatedAt": "2026-05-05T20:39:33.877Z",
+      "moderatedBy": "usr_twUWHkqR7cjacbV2",
+      "moderatedAt": "2026-05-05T20:39:33.877Z"
     },
     {
       "id": "prd_GT2LSF2XkKKk2g0Y",
@@ -112,7 +114,7 @@
       "isSoftware": true,
       "images": [],
       "thumbnailUrl": "",
-      "status": "pending_review",
+      "status": "active",
       "viewCount": 0,
       "purchaseCount": 0,
       "averageRating": 0,
@@ -120,7 +122,9 @@
       "isFeatured": false,
       "isTrending": false,
       "createdAt": "2026-05-05T20:35:00.696Z",
-      "updatedAt": "2026-05-05T20:35:01.444Z"
+      "updatedAt": "2026-05-05T20:39:36.162Z",
+      "moderatedBy": "usr_twUWHkqR7cjacbV2",
+      "moderatedAt": "2026-05-05T20:39:36.162Z"
     }
   ],
   "categories": [
@@ -256,6 +260,13 @@
       "ip": "::1",
       "success": true,
       "at": "2026-05-05T20:34:02.271Z"
+    },
+    {
+      "id": "aut_nPHZMMfNMq8kWXIF",
+      "email": "admin@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-05T20:39:06.607Z"
     }
   ]
 }
