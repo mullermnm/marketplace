@@ -12,6 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@paddle/paddle-node-sdk": "^3.8.0",
     "@radix-ui/react-slot": "^1.2.4",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",

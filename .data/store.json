@@ -115,14 +115,14 @@
       "images": [],
       "thumbnailUrl": "",
       "status": "active",
-      "viewCount": 0,
-      "purchaseCount": 0,
+      "viewCount": 2,
+      "purchaseCount": 1,
       "averageRating": 0,
       "reviewCount": 0,
       "isFeatured": false,
       "isTrending": false,
       "createdAt": "2026-05-05T20:35:00.696Z",
-      "updatedAt": "2026-05-05T20:39:36.162Z",
+      "updatedAt": "2026-05-06T12:38:12.031Z",
       "moderatedBy": "usr_twUWHkqR7cjacbV2",
       "moderatedAt": "2026-05-05T20:39:36.162Z"
     }
@@ -233,7 +233,40 @@
       "updatedAt": "2026-05-05T20:11:19.558Z"
     }
   ],
-  "orders": [],
+  "orders": [
+    {
+      "customerId": "usr_hSAw6mfeedlB85Kr",
+      "items": [
+        {
+          "productId": "prd_GT2LSF2XkKKk2g0Y",
+          "sellerId": "usr_176t0hEDZlQlTx4u",
+          "title": "mnm",
+          "priceCents": 999,
+          "commissionRate": 10,
+          "commissionCents": 100,
+          "sellerPayoutCents": 899,
+          "licenseKey": "JGMAT-6FXRW-QUGZ5-QR5MC-IK1QG",
+          "downloadToken": "nEr-7usxh7fw0ApU00e-PXSCV4EGzVjGY3rJM2zXzJJApHo1",
+          "downloadTokenExpiry": "2026-06-05T12:38:12.028Z",
+          "downloadCount": 0
+        }
+      ],
+      "subtotalCents": 999,
+      "discountCents": 0,
+      "totalCents": 999,
+      "totalCommissionCents": 100,
+      "totalSellerPayoutCents": 899,
+      "paddleTransactionId": "ptx_kIc6KH9WPJWGG3VT",
+      "paddleCheckoutId": "chk_NuoQiYObEyPw4Vys",
+      "paymentStatus": "completed",
+      "fraudScore": 0,
+      "fraudFlags": [],
+      "requiresReview": false,
+      "id": "ord_VYCB46dsyA8lPhZw",
+      "createdAt": "2026-05-06T12:38:12.030Z",
+      "updatedAt": "2026-05-06T12:38:12.030Z"
+    }
+  ],
   "reviews": [],
   "discountCodes": [],
   "bundles": [],
@@ -267,6 +300,20 @@
       "ip": "::1",
       "success": true,
       "at": "2026-05-05T20:39:06.607Z"
+    },
+    {
+      "id": "aut_pUBSlm9Fpfnr6FsX",
+      "email": "customer@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-06T12:37:51.449Z"
+    },
+    {
+      "id": "aut_xG5Vpviuob7MkJWL",
+      "email": "seller@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-06T12:52:55.619Z"
     }
   ]
 }

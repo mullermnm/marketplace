@@ -17,7 +17,7 @@ const FEATURES: Record<string, string[]> = {
 export default async function SubscriptionPage({
   searchParams,
 }: {
-  searchParams: { ok?: string; failed?: string };
+  searchParams: { ok?: string; failed?: string; err?: string };
 }) {
   const session = await requireRole("seller");
   const sub = subsRepo.byUserId(session.uid);
@@ -36,7 +36,9 @@ export default async function SubscriptionPage({
       )}
       {searchParams.failed && (
         <div className="rounded-lg border border-rose-500/30 bg-rose-500/5 px-4 py-3 text-sm text-rose-600 dark:text-rose-400">
-          Payment failed. Update your method in Paddle.
+          {searchParams.err
+            ? <>Checkout failed: <code className="font-mono text-xs">{searchParams.err}</code></>
+            : "Payment failed. Update your method in Paddle."}
         </div>
       )}
 

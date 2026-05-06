@@ -14,10 +14,19 @@ export async function POST(req: NextRequest) {
     activateTier(session.uid, "free_trial");
     return NextResponse.redirect(new URL("/seller/subscription?ok=1", req.url));
   }
-  const checkout = await paddle().createSubscriptionCheckout({
-    tierId,
-    customerEmail: session.email,
-    metadata: { userId: session.uid },
-  });
-  return NextResponse.redirect(new URL(checkout.checkoutUrl, req.url));
+  try {
+    const checkout = await paddle().createSubscriptionCheckout({
+      tierId,
+      customerEmail: session.email,
+      metadata: { userId: session.uid },
+    });
+    // Paddle URL is absolute; pass through directly.
+    return NextResponse.redirect(checkout.checkoutUrl);
+  } catch (e: any) {
+    console.error("[subscription/checkout] paddle error", e);
+    const url = new URL("/seller/subscription", req.url);
+    url.searchParams.set("failed", "1");
+    url.searchParams.set("err", (e?.message ?? "Checkout failed").slice(0, 200));
+    return NextResponse.redirect(url);
+  }
 }

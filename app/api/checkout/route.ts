@@ -3,7 +3,7 @@ import { getSession } from "@/src/lib/auth/session";
 import { readCart, resolveCart } from "@/src/lib/services/cart";
 import { paddle } from "@/src/lib/services/paddle";
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   const session = await getSession();
   if (!session)
     return NextResponse.json({ error: "Login required" }, { status: 401 });
@@ -14,17 +14,38 @@ export async function POST(req: NextRequest) {
   if (resolved.errors.length)
     return NextResponse.json({ error: resolved.errors.join(", ") }, { status: 400 });
 
-  const checkout = await paddle().createCheckoutSession({
-    customerEmail: session.email,
-    items: resolved.items.map((i) => ({
-      name: i.title,
-      priceCents: i.priceCents,
-      quantity: 1,
-    })),
-    metadata: {
-      userId: session.uid,
-      code: cart.code ?? "",
-    },
-  });
-  return NextResponse.json({ checkoutUrl: checkout.checkoutUrl });
+  // We pass the cart through Paddle's custom_data so the webhook can
+  // reconstruct the order regardless of when the redirect lands.
+  // Paddle stringifies object values; nested arrays of primitives are fine.
+  try {
+    const checkout = await paddle().createCheckoutSession({
+      customerEmail: session.email,
+      items: resolved.items.map((i) => ({
+        name: i.title,
+        priceCents: i.priceCents,
+        quantity: 1,
+      })),
+      metadata: {
+        userId: session.uid,
+        code: cart.code ?? "",
+        cart: JSON.stringify(
+          resolved.items.map((i) => ({
+            type: i.type,
+            id: i.id,
+            sellerId: i.sellerId,
+            priceCents: i.priceCents,
+            title: i.title,
+            contains: i.contains,
+          })),
+        ),
+      },
+    });
+    return NextResponse.json({ checkoutUrl: checkout.checkoutUrl });
+  } catch (e: any) {
+    console.error("[checkout] paddle error", e);
+    return NextResponse.json(
+      { error: e?.message ?? "Checkout failed" },
+      { status: 500 },
+    );
+  }
 }
