@@ -36,6 +36,15 @@ export interface PaymentProvider {
     currency: string;
   }): Promise<{ payoutId: string; ok: boolean }>;
   verifyWebhook(rawBody: string, signatureHeader: string | null): boolean;
+  getTransaction(
+    transactionId: string,
+  ): Promise<{
+    id: string;
+    status: string;
+    customData: Record<string, any> | null;
+    customerEmail?: string;
+    items: { priceId: string; priceName: string; priceCents: number; quantity: number }[];
+  }>;
 }
 
 class FakePaddle implements PaymentProvider {
@@ -82,6 +91,15 @@ class FakePaddle implements PaymentProvider {
   }
   verifyWebhook(): boolean {
     return true;
+  }
+  async getTransaction(transactionId: string) {
+    return {
+      id: transactionId,
+      status: "completed",
+      customData: null,
+      customerEmail: undefined,
+      items: [],
+    };
   }
 }
 
@@ -259,6 +277,27 @@ class RealPaddle implements PaymentProvider {
       console.error("[paddle] webhook verify error", e);
       return false;
     }
+  }
+
+  async getTransaction(transactionId: string) {
+    const tx = (await this.client.transactions.get(transactionId)) as any;
+    const items = ((tx.items ?? []) as any[]).map((it) => {
+      const unit = it.price?.unitPrice ?? it.price?.unit_price ?? {};
+      return {
+        priceId: it.price?.id ?? "",
+        priceName: it.price?.name ?? "",
+        priceCents: parseInt(unit.amount ?? "0", 10),
+        quantity: it.quantity ?? 1,
+      };
+    });
+    return {
+      id: tx.id,
+      status: tx.status,
+      customData: tx.customData ?? tx.custom_data ?? null,
+      customerEmail:
+        tx.customer?.email ?? tx.billing_details?.customer_email ?? undefined,
+      items,
+    };
   }
 }
 

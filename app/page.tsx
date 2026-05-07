@@ -159,28 +159,41 @@ export default function Home() {
           Start free. Scale to enterprise. Keep more of every sale.
         </h2>
         <div className="grid gap-4 md:grid-cols-4">
-          {Object.values(TIERS).map((t, i) => (
-            <div
-              key={t.id}
-              className={`rounded-xl border p-6 ${i === 2 ? "gradient-border border-transparent bg-[color:var(--card)]" : "border-[color:var(--border)] bg-[color:var(--card)]"}`}
-            >
-              {i === 2 && (
-                <span className="mb-2 inline-block text-[10px] uppercase tracking-widest font-semibold text-[color:var(--brand-600)] dark:text-[color:var(--brand-300)]">
-                  Most popular
-                </span>
-              )}
-              <h3 className="font-serif-display text-2xl">{t.name}</h3>
-              <p className="mt-1 text-3xl font-semibold tracking-tight">
-                {formatMoney(t.monthlyPriceCents)}
-                <span className="text-sm font-normal text-[color:var(--fg-muted)]">/mo</span>
-              </p>
-              <ul className="mt-4 space-y-1.5 text-sm text-[color:var(--fg-muted)]">
-                <li>{t.commissionRate}% platform fee</li>
-                <li>{t.productLimit === -1 ? "Unlimited" : t.productLimit} products</li>
-                <li>{t.storageLimitGB}GB storage</li>
-              </ul>
-            </div>
-          ))}
+          {Object.values(TIERS).map((t, i) => {
+            const popular = i === 2;
+            const cta =
+              t.id === "free_trial"
+                ? "Start free →"
+                : t.id === "enterprise"
+                ? "Talk to sales →"
+                : "Choose this plan →";
+            return (
+              <Link
+                key={t.id}
+                href={`/seller/subscription?plan=${t.id}`}
+                className={`group block rounded-xl border p-6 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-md)] ${popular ? "gradient-border border-transparent bg-[color:var(--card)]" : "border-[color:var(--border)] bg-[color:var(--card)] hover:border-[color:var(--border-strong)]"}`}
+              >
+                {popular && (
+                  <span className="mb-2 inline-block text-[10px] uppercase tracking-widest font-semibold text-[color:var(--brand-600)] dark:text-[color:var(--brand-300)]">
+                    Most popular
+                  </span>
+                )}
+                <h3 className="font-serif-display text-2xl">{t.name}</h3>
+                <p className="mt-1 text-3xl font-semibold tracking-tight">
+                  {formatMoney(t.monthlyPriceCents)}
+                  <span className="text-sm font-normal text-[color:var(--fg-muted)]">/mo</span>
+                </p>
+                <ul className="mt-4 space-y-1.5 text-sm text-[color:var(--fg-muted)]">
+                  <li>{t.commissionRate}% platform fee</li>
+                  <li>{t.productLimit === -1 ? "Unlimited" : t.productLimit} products</li>
+                  <li>{t.storageLimitGB}GB storage</li>
+                </ul>
+                <p className="mt-5 pt-4 border-t border-[color:var(--border)] text-sm font-medium text-[color:var(--brand-600)] dark:text-[color:var(--brand-300)] group-hover:translate-x-0.5 transition-transform">
+                  {cta}
+                </p>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

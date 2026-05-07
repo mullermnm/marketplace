@@ -1,153 +1,19 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import { requireRole } from "@/src/lib/auth/guards";
 import { subsRepo } from "@/src/lib/repos/subscriptions";
-import { TIERS, TIER_ORDER } from "@/src/lib/config/tiers";
-import { Button } from "@/src/components/ui/button";
-import { formatMoney } from "@/src/lib/utils";
-import { Check } from "lucide-react";
+import { TIERS } from "@/src/lib/config/tiers";
 import { DashboardShell } from "@/src/components/dashboard/DashboardShell";
 import { sellerNav } from "@/src/components/dashboard/sellerNav";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { SubscriptionTiers } from "./SubscriptionTiers";
 
-const FEATURES: Record<string, string[]> = {
-  free_trial: ["5 products", "5 GB storage", "10% platform fee", "Standard analytics"],
-  basic: ["50 products", "50 GB storage", "7% platform fee", "Standard analytics", "Discount codes"],
-  pro: ["500 products", "500 GB storage", "5% platform fee", "Advanced analytics", "Customer demographics", "Priority email support"],
-  enterprise: ["Unlimited products", "2 TB storage", "3% platform fee", "Advanced analytics + cohorts", "Custom commission rates", "Dedicated CSM"],
-};
-
-// Paddle.js types
-declare global {
-  interface Window {
-    Paddle: any;
-  }
-}
-
-interface SubscriptionPageClientProps {
-  session: any;
-  sub: any;
-  searchParams: { ok?: string; failed?: string; err?: string };
-}
-
-function SubscriptionPageClient({ session, sub, searchParams }: SubscriptionPageClientProps) {
-  const router = useRouter();
-  const [busy, setBusy] = useState<string | null>(null);
-  const [paddleLoaded, setPaddleLoaded] = useState(false);
-
-  // Load Paddle.js
-  useEffect(() => {
-    const loadPaddle = async () => {
-      if (window.Paddle) {
-        setPaddleLoaded(true);
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
-      script.async = true;
-      
-      script.onload = () => {
-        window.Paddle.Initialize({
-          token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
-          environment: 'sandbox', // Explicitly set sandbox environment
-        });
-        setPaddleLoaded(true);
-      };
-      
-      script.onerror = () => {
-        console.error('Failed to load Paddle.js');
-        toast.error('Payment system unavailable');
-      };
-
-      document.head.appendChild(script);
-    };
-
-    loadPaddle();
-  }, []);
-
-  async function handleSubscription(tierId: string) {
-    if (!paddleLoaded) {
-      toast.error('Payment system is loading, please try again');
-      return;
-    }
-
-    setBusy(tierId);
-
-    try {
-      if (tierId === "free_trial") {
-        // Handle free trial activation
-        const res = await fetch("/api/seller/subscription/checkout", {
-          method: "POST",
-          body: new FormData().append("tierId", tierId),
-        });
-        
-        if (res.ok) {
-          toast.success("Free trial activated!");
-          router.refresh();
-        } else {
-          throw new Error("Failed to activate free trial");
-        }
-        return;
-      }
-
-      // Get transaction data from API
-      const res = await fetch("/api/seller/subscription/checkout", {
-        method: "POST",
-        body: new FormData().append("tierId", tierId),
-      });
-      
-      const data = await res.json();
-      
-      if (!res.ok) {
-        toast.error(data.error ?? "Subscription checkout failed");
-        return;
-      }
-
-      // Open Paddle inline checkout
-      await new Promise<void>((resolve, reject) => {
-        window.Paddle.Checkout.open({
-          transactionId: data.transactionId,
-          settings: {
-            displayMode: 'overlay',
-            theme: 'light',
-            allowLogout: false,
-            showAddTaxId: true,
-            showAddDiscounts: true,
-          },
-          eventCallback: (eventData: any) => {
-            console.log('Paddle subscription checkout event:', eventData);
-            
-            switch (eventData.name) {
-              case 'checkout.completed':
-                toast.success('Subscription updated successfully!');
-                router.push('/seller/subscription?ok=1');
-                resolve();
-                break;
-              case 'checkout.closed':
-                if (eventData.data?.status === 'completed') {
-                  resolve();
-                } else {
-                  reject(new Error('Checkout cancelled'));
-                }
-                break;
-              case 'checkout.error':
-                reject(new Error('Checkout error'));
-                break;
-            }
-          },
-        });
-      });
-    } catch (error: any) {
-      console.error('Subscription error:', error);
-      toast.error(error.message || 'Subscription failed');
-    } finally {
-      setBusy(null);
-    }
-  }
-
+export default async function SubscriptionPage({
+  searchParams,
+}: {
+  searchParams: { ok?: string; failed?: string; err?: string; plan?: string };
+}) {
+  const session = await requireRole("seller");
+  const sub = subsRepo.byUserId(session.uid);
+  const requestedPlan =
+    searchParams.plan && searchParams.plan in TIERS ? searchParams.plan : undefined;
   return (
     <DashboardShell
       eyebrow="Seller studio"
@@ -163,92 +29,29 @@ function SubscriptionPageClient({ session, sub, searchParams }: SubscriptionPage
       )}
       {searchParams.failed && (
         <div className="rounded-lg border border-rose-500/30 bg-rose-500/5 px-4 py-3 text-sm text-rose-600 dark:text-rose-400">
-          {searchParams.err
-            ? <>Checkout failed: <code className="font-mono text-xs">{searchParams.err}</code></>
-            : "Payment failed. Update your method in Paddle."}
+          {searchParams.err ? (
+            <>
+              Checkout failed: <code className="font-mono text-xs">{searchParams.err}</code>
+            </>
+          ) : (
+            "Payment failed. Update your method in Paddle."
+          )}
         </div>
       )}
 
-      <div className="grid gap-5 lg:grid-cols-4">
-        {TIER_ORDER.map((id, i) => {
-          const t = TIERS[id];
-          const isCurrent = sub?.tier === id;
-          const isLoading = busy === id;
-          const popular = i === 2;
-          return (
-            <div
-              key={id}
-              className={`relative rounded-2xl p-6 transition-all ${
-                popular
-                  ? "gradient-border bg-[color:var(--card)] -translate-y-2 lg:scale-[1.02]"
-                  : "border border-[color:var(--border)] bg-[color:var(--card)] hover:border-[color:var(--border-strong)]"
-              }`}
-            >
-              {popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[color:var(--brand-600)] px-3 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-white">
-                  Most popular
-                </span>
-              )}
-              <h3 className="font-serif-display text-2xl tracking-tight">{t.name}</h3>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-semibold tracking-tight">
-                  {formatMoney(t.monthlyPriceCents)}
-                </span>
-                <span className="text-sm text-[color:var(--fg-muted)]">/mo</span>
-              </div>
-              <ul className="mt-6 space-y-2.5 text-sm">
-                {FEATURES[id].map((f) => (
-                  <li key={f} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 mt-0.5 text-[color:var(--brand-600)] dark:text-[color:var(--brand-300)] shrink-0" />
-                    <span className="text-[color:var(--fg-muted)]">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6">
-                <Button
-                  onClick={() => handleSubscription(id)}
-                  variant={popular ? "primary" : "outline"}
-                  className="w-full"
-                  disabled={isCurrent || isLoading || !paddleLoaded}
-                >
-                  {isLoading 
-                    ? 'Processing...' 
-                    : !paddleLoaded 
-                    ? 'Loading...'
-                    : isCurrent 
-                    ? "Current plan" 
-                    : id === "free_trial" 
-                    ? "Switch to free" 
-                    : "Choose"
-                  }
-                </Button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <SubscriptionTiers
+        currentTier={sub?.tier}
+        customerEmail={session.email}
+        autoOpen={requestedPlan as any}
+      />
 
       <div className="rounded-2xl border border-dashed border-[color:var(--border)] p-8 text-center text-sm text-[color:var(--fg-muted)]">
         Custom needs? Talk to us about volume pricing and revenue-share deals at{" "}
-        <a className="underline text-[color:var(--fg)]" href="mailto:hello@plinth.dev">hello@plinth.dev</a>.
+        <a className="underline text-[color:var(--fg)]" href="mailto:hello@plinth.dev">
+          hello@plinth.dev
+        </a>
+        .
       </div>
     </DashboardShell>
-  );
-}
-
-export default async function SubscriptionPage({
-  searchParams,
-}: {
-  searchParams: { ok?: string; failed?: string; err?: string };
-}) {
-  const session = await requireRole("seller");
-  const sub = subsRepo.byUserId(session.uid);
-  
-  return (
-    <SubscriptionPageClient 
-      session={session} 
-      sub={sub} 
-      searchParams={searchParams} 
-    />
   );
 }

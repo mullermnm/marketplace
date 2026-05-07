@@ -6,13 +6,8 @@ import { Button } from "@/src/components/ui/button";
 import { formatMoney } from "@/src/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-// Paddle.js types
-declare global {
-  interface Window {
-    Paddle: any;
-  }
-}
+import { Loader2 } from "lucide-react";
+import { usePaddle, openPaddleCheckout } from "@/src/lib/paddle/usePaddle";
 
 export function CartActions({
   code,
@@ -30,38 +25,7 @@ export function CartActions({
   const r = useRouter();
   const [c, setC] = useState(code);
   const [busy, setBusy] = useState(false);
-  const [paddleLoaded, setPaddleLoaded] = useState(false);
-
-  // Load Paddle.js
-  useEffect(() => {
-    const loadPaddle = async () => {
-      if (window.Paddle) {
-        setPaddleLoaded(true);
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
-      script.async = true;
-      
-      script.onload = () => {
-        window.Paddle.Initialize({
-          token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
-          environment: 'sandbox', // Explicitly set sandbox environment
-        });
-        setPaddleLoaded(true);
-      };
-      
-      script.onerror = () => {
-        console.error('Failed to load Paddle.js');
-        toast.error('Payment system unavailable');
-      };
-
-      document.head.appendChild(script);
-    };
-
-    loadPaddle();
-  }, []);
+  const { ready: paddleReady, error: paddleError } = usePaddle();
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -95,95 +59,110 @@ export function CartActions({
   }
 
   async function checkout() {
-    if (!paddleLoaded) {
-      toast.error('Payment system is loading, please try again');
+    if (!paddleReady) {
+      toast.error(paddleError ?? "Payment system still loading — try again");
       return;
     }
-
     setBusy(true);
-    
     try {
-      // Get transaction data from API
+      // 1. Server creates a Paddle transaction, returns its id
       const res = await fetch("/api/checkout", { method: "POST" });
-      const data = await res.json();
-      
-      if (!res.ok) {
-        toast.error(data.error ?? "Checkout failed");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.transactionId) {
+        toast.error(data.error ?? "Checkout could not start");
+        setBusy(false);
         return;
       }
+      const transactionId: string = data.transactionId;
 
-      // Open Paddle inline checkout
-      await new Promise<void>((resolve, reject) => {
-        window.Paddle.Checkout.open({
-          transactionId: data.transactionId,
-          settings: {
-            displayMode: 'overlay',
-            theme: 'light',
-            allowLogout: false,
-            showAddTaxId: true,
-            showAddDiscounts: true,
-          },
-          eventCallback: (eventData: any) => {
-            console.log('Paddle checkout event:', eventData);
-            
-            switch (eventData.name) {
-              case 'checkout.completed':
-                toast.success('Payment completed successfully!');
-                // Clear cart and redirect to success page
-                fetch('/api/cart/clear', { method: 'POST' }).then(() => {
-                  r.push('/checkout/success');
-                });
-                resolve();
-                break;
-              case 'checkout.closed':
-                if (eventData.data?.status === 'completed') {
-                  resolve();
-                } else {
-                  reject(new Error('Checkout cancelled'));
-                }
-                break;
-              case 'checkout.error':
-                reject(new Error('Checkout error'));
-                break;
+      // 2. Open Paddle inline overlay
+      openPaddleCheckout({
+        transactionId,
+        onCompleted: async () => {
+          // 3. Server confirms with Paddle and creates the order
+          try {
+            const confirm = await fetch("/api/checkout/confirm", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ transactionId }),
+            });
+            const cj = await confirm.json().catch(() => ({}));
+            if (confirm.ok && cj.orderId) {
+              toast.success("Payment completed");
+              r.push(`/orders/${cj.orderId}?new=1`);
+              return;
             }
-          },
-        });
+            toast.message("Payment received", {
+              description: "Finalizing your order…",
+            });
+            r.push(`/checkout/success?_ptxn=${encodeURIComponent(transactionId)}`);
+          } catch (e) {
+            console.error(e);
+            r.push(`/checkout/success?_ptxn=${encodeURIComponent(transactionId)}`);
+          }
+        },
+        onClosed: (data) => {
+          if (data?.status !== "completed") setBusy(false);
+        },
+        onError: () => {
+          toast.error("Paddle reported an error — see browser console");
+          setBusy(false);
+        },
       });
-    } catch (error: any) {
-      console.error('Checkout error:', error);
-      toast.error(error.message || 'Checkout failed');
-    } finally {
+    } catch (e: any) {
+      console.error("[checkout] error", e);
+      toast.error(e?.message ?? "Checkout failed");
       setBusy(false);
     }
   }
 
   return (
-    <div className="space-y-3 pt-4 border-t border-border">
+    <div className="space-y-3 pt-4 border-t border-[color:var(--border)]">
       <div className="flex gap-2">
-        <Input value={c} onChange={(e) => setC(e.target.value.toUpperCase())} placeholder="Discount code" />
-        <Button variant="outline" onClick={applyCode} disabled={busy}>Apply</Button>
+        <Input
+          value={c}
+          onChange={(e) => setC(e.target.value.toUpperCase())}
+          placeholder="Discount code"
+        />
+        <Button variant="outline" onClick={applyCode} disabled={busy}>
+          Apply
+        </Button>
       </div>
       {errors.map((er, i) => (
-        <p key={i} className="text-sm text-destructive">{er}</p>
+        <p key={i} className="text-sm text-[color:var(--destructive)]">
+          {er}
+        </p>
       ))}
       <div className="flex justify-between text-sm">
-        <span>Subtotal</span><span>{formatMoney(subtotalCents)}</span>
+        <span>Subtotal</span>
+        <span>{formatMoney(subtotalCents)}</span>
       </div>
       {discountCents > 0 && (
-        <div className="flex justify-between text-sm text-green-600">
-          <span>Discount</span><span>−{formatMoney(discountCents)}</span>
+        <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
+          <span>Discount</span>
+          <span>−{formatMoney(discountCents)}</span>
         </div>
       )}
       <div className="flex justify-between font-semibold text-lg">
-        <span>Total</span><span>{formatMoney(totalCents)}</span>
+        <span>Total</span>
+        <span>{formatMoney(totalCents)}</span>
       </div>
-      <Button 
-        className="w-full" 
-        size="lg" 
-        onClick={checkout} 
-        disabled={busy || !paddleLoaded}
+      <Button
+        variant="primary"
+        className="w-full"
+        size="xl"
+        onClick={checkout}
+        disabled={busy || !paddleReady}
       >
-        {busy ? 'Processing...' : !paddleLoaded ? 'Loading...' : 'Checkout'}
+        {busy ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" /> Processing…
+          </>
+        ) : !paddleReady ? (
+          "Loading payment…"
+        ) : (
+          `Checkout · ${formatMoney(totalCents)}`
+        )}
       </Button>
     </div>
   );
