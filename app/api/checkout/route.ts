@@ -18,7 +18,7 @@ export async function POST(_req: NextRequest) {
   // reconstruct the order regardless of when the redirect lands.
   // Paddle stringifies object values; nested arrays of primitives are fine.
   try {
-    const checkout = await paddle().createCheckoutSession({
+    const checkout = await paddle().createInlineCheckout({
       customerEmail: session.email,
       items: resolved.items.map((i) => ({
         name: i.title,
@@ -40,7 +40,10 @@ export async function POST(_req: NextRequest) {
         ),
       },
     });
-    return NextResponse.json({ checkoutUrl: checkout.checkoutUrl });
+    return NextResponse.json({ 
+      transactionId: checkout.transactionId,
+      items: checkout.items 
+    });
   } catch (e: any) {
     console.error("[checkout] paddle error", e);
     return NextResponse.json(

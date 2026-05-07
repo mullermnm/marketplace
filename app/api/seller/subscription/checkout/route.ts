@@ -15,18 +15,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL("/seller/subscription?ok=1", req.url));
   }
   try {
-    const checkout = await paddle().createSubscriptionCheckout({
+    const checkout = await paddle().createInlineSubscriptionCheckout({
       tierId,
       customerEmail: session.email,
       metadata: { userId: session.uid },
     });
-    // Paddle URL is absolute; pass through directly.
-    return NextResponse.redirect(checkout.checkoutUrl);
+    return NextResponse.json({ 
+      transactionId: checkout.transactionId,
+      priceId: checkout.priceId 
+    });
   } catch (e: any) {
     console.error("[subscription/checkout] paddle error", e);
-    const url = new URL("/seller/subscription", req.url);
-    url.searchParams.set("failed", "1");
-    url.searchParams.set("err", (e?.message ?? "Checkout failed").slice(0, 200));
-    return NextResponse.redirect(url);
+    return NextResponse.json(
+      { error: e?.message ?? "Checkout failed" },
+      { status: 500 },
+    );
   }
 }

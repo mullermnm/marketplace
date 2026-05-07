@@ -50,15 +50,15 @@
       "productLimit": 5,
       "storageLimitGB": 5,
       "commissionRate": 10,
-      "currentProductCount": 2,
-      "currentStorageBytes": 15854,
+      "currentProductCount": 3,
+      "currentStorageBytes": 74801,
       "billingCycle": "monthly",
       "currentPeriodStart": "2026-05-05T20:11:19.942Z",
       "currentPeriodEnd": "2026-06-04T20:11:19.942Z",
       "cancelAtPeriodEnd": false,
       "failedPaymentAttempts": 0,
       "createdAt": "2026-05-05T20:11:19.942Z",
-      "updatedAt": "2026-05-05T20:35:01.445Z"
+      "updatedAt": "2026-05-07T16:58:18.553Z"
     }
   ],
   "products": [
@@ -125,6 +125,43 @@
       "updatedAt": "2026-05-06T12:38:12.031Z",
       "moderatedBy": "usr_twUWHkqR7cjacbV2",
       "moderatedAt": "2026-05-05T20:39:36.162Z"
+    },
+    {
+      "id": "prd_kqjxBlIMfvL6Kta5",
+      "sellerId": "usr_176t0hEDZlQlTx4u",
+      "title": "test product",
+      "description": "test product",
+      "priceCents": 999,
+      "categoryIds": [
+        "cat_f21SPY980if5QiCA"
+      ],
+      "files": [
+        {
+          "fileId": "fil_wjlpWDjpZ4D9QZGE",
+          "fileName": "profile.jpg",
+          "fileSize": 58947,
+          "fileType": "image/jpeg",
+          "filePath": "products/prd_kqjxBlIMfvL6Kta5/1778173098549_profile.jpg",
+          "version": 1,
+          "uploadedAt": "2026-05-07T16:58:18.553Z"
+        }
+      ],
+      "currentVersion": 1,
+      "productType": "pdf",
+      "isSoftware": false,
+      "images": [],
+      "thumbnailUrl": "",
+      "status": "active",
+      "viewCount": 6,
+      "purchaseCount": 0,
+      "averageRating": 0,
+      "reviewCount": 0,
+      "isFeatured": false,
+      "isTrending": false,
+      "createdAt": "2026-05-07T16:58:18.015Z",
+      "updatedAt": "2026-05-07T17:20:56.480Z",
+      "moderatedBy": "usr_twUWHkqR7cjacbV2",
+      "moderatedAt": "2026-05-07T16:59:28.363Z"
     }
   ],
   "categories": [
@@ -314,6 +351,27 @@
       "ip": "::1",
       "success": true,
       "at": "2026-05-06T12:52:55.619Z"
+    },
+    {
+      "id": "aut_NdtRwnU5obEXFM2S",
+      "email": "seller@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-07T16:57:13.792Z"
+    },
+    {
+      "id": "aut_fX5k4DuHgtuLG46k",
+      "email": "admin@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-07T16:58:57.019Z"
+    },
+    {
+      "id": "aut_PLojobE1QVIZup9r",
+      "email": "customer@local.dev",
+      "ip": "::1",
+      "success": true,
+      "at": "2026-05-07T17:00:20.942Z"
     }
   ]
 }

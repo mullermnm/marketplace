@@ -7,6 +7,13 @@ import { formatMoney } from "@/src/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+// Paddle.js types
+declare global {
+  interface Window {
+    Paddle: any;
+  }
+}
+
 export function CartActions({
   code,
   subtotalCents,
@@ -23,6 +30,38 @@ export function CartActions({
   const r = useRouter();
   const [c, setC] = useState(code);
   const [busy, setBusy] = useState(false);
+  const [paddleLoaded, setPaddleLoaded] = useState(false);
+
+  // Load Paddle.js
+  useEffect(() => {
+    const loadPaddle = async () => {
+      if (window.Paddle) {
+        setPaddleLoaded(true);
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+      script.async = true;
+      
+      script.onload = () => {
+        window.Paddle.Initialize({
+          token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+          environment: 'sandbox', // Explicitly set sandbox environment
+        });
+        setPaddleLoaded(true);
+      };
+      
+      script.onerror = () => {
+        console.error('Failed to load Paddle.js');
+        toast.error('Payment system unavailable');
+      };
+
+      document.head.appendChild(script);
+    };
+
+    loadPaddle();
+  }, []);
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -56,15 +95,66 @@ export function CartActions({
   }
 
   async function checkout() {
-    setBusy(true);
-    const res = await fetch("/api/checkout", { method: "POST" });
-    setBusy(false);
-    const j = await res.json();
-    if (!res.ok) {
-      toast.error(j.error ?? "Checkout failed");
+    if (!paddleLoaded) {
+      toast.error('Payment system is loading, please try again');
       return;
     }
-    window.location.href = j.checkoutUrl;
+
+    setBusy(true);
+    
+    try {
+      // Get transaction data from API
+      const res = await fetch("/api/checkout", { method: "POST" });
+      const data = await res.json();
+      
+      if (!res.ok) {
+        toast.error(data.error ?? "Checkout failed");
+        return;
+      }
+
+      // Open Paddle inline checkout
+      await new Promise<void>((resolve, reject) => {
+        window.Paddle.Checkout.open({
+          transactionId: data.transactionId,
+          settings: {
+            displayMode: 'overlay',
+            theme: 'light',
+            allowLogout: false,
+            showAddTaxId: true,
+            showAddDiscounts: true,
+          },
+          eventCallback: (eventData: any) => {
+            console.log('Paddle checkout event:', eventData);
+            
+            switch (eventData.name) {
+              case 'checkout.completed':
+                toast.success('Payment completed successfully!');
+                // Clear cart and redirect to success page
+                fetch('/api/cart/clear', { method: 'POST' }).then(() => {
+                  r.push('/checkout/success');
+                });
+                resolve();
+                break;
+              case 'checkout.closed':
+                if (eventData.data?.status === 'completed') {
+                  resolve();
+                } else {
+                  reject(new Error('Checkout cancelled'));
+                }
+                break;
+              case 'checkout.error':
+                reject(new Error('Checkout error'));
+                break;
+            }
+          },
+        });
+      });
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      toast.error(error.message || 'Checkout failed');
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -87,8 +177,13 @@ export function CartActions({
       <div className="flex justify-between font-semibold text-lg">
         <span>Total</span><span>{formatMoney(totalCents)}</span>
       </div>
-      <Button className="w-full" size="lg" onClick={checkout} disabled={busy}>
-        Checkout
+      <Button 
+        className="w-full" 
+        size="lg" 
+        onClick={checkout} 
+        disabled={busy || !paddleLoaded}
+      >
+        {busy ? 'Processing...' : !paddleLoaded ? 'Loading...' : 'Checkout'}
       </Button>
     </div>
   );

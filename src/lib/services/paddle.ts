@@ -10,12 +10,22 @@ export interface PaymentProvider {
     items: { name: string; priceCents: number; quantity: number }[];
     customerEmail: string;
     metadata?: Record<string, string>;
-  }): Promise<{ checkoutId: string; checkoutUrl: string }>;
+  }): Promise<{ checkoutId: string; checkoutUrl?: string; transactionId?: string }>;
   createSubscriptionCheckout(input: {
     tierId: string;
     customerEmail: string;
     metadata?: Record<string, string>;
-  }): Promise<{ checkoutId: string; checkoutUrl: string }>;
+  }): Promise<{ checkoutId: string; checkoutUrl?: string; transactionId?: string; priceId?: string }>;
+  createInlineCheckout(input: {
+    items: { name: string; priceCents: number; quantity: number }[];
+    customerEmail: string;
+    metadata?: Record<string, string>;
+  }): Promise<{ transactionId: string; items: Array<{ priceId: string; quantity: number }> }>;
+  createInlineSubscriptionCheckout(input: {
+    tierId: string;
+    customerEmail: string;
+    metadata?: Record<string, string>;
+  }): Promise<{ transactionId: string; priceId: string }>;
   refund(
     transactionId: string,
     amountCents: number,
@@ -50,6 +60,19 @@ class FakePaddle implements PaymentProvider {
       meta: JSON.stringify(input.metadata ?? {}),
     });
     return { checkoutId: id, checkoutUrl: `/checkout/fake?${params.toString()}` };
+  }
+  async createInlineCheckout(input: any) {
+    const transactionId = newId("txn");
+    const items = input.items.map((item: any, index: number) => ({
+      priceId: `pri_fake_${index}`,
+      quantity: item.quantity,
+    }));
+    return { transactionId, items };
+  }
+  async createInlineSubscriptionCheckout(input: any) {
+    const transactionId = newId("txn");
+    const priceId = `pri_fake_${input.tierId}`;
+    return { transactionId, priceId };
   }
   async refund() {
     return { refundId: newId("rfn"), ok: true };
@@ -88,6 +111,10 @@ class RealPaddle implements PaymentProvider {
           unitPrice: { amount: String(i.priceCents), currencyCode: "USD" },
           quantity: { minimum: 1, maximum: 1 },
           taxMode: "account_setting",
+          product: {
+            name: i.name,
+            taxCategory: "standard",
+          },
         },
       })) as any,
       customerEmail: input.customerEmail,
@@ -96,7 +123,7 @@ class RealPaddle implements PaymentProvider {
     } as any);
     const checkoutUrl = (tx as any).checkout?.url;
     if (!checkoutUrl) throw new Error("Paddle did not return a checkout URL");
-    return { checkoutId: tx.id, checkoutUrl };
+    return { checkoutId: tx.id, checkoutUrl, transactionId: tx.id };
   }
 
   async createSubscriptionCheckout(input: {
@@ -117,7 +144,63 @@ class RealPaddle implements PaymentProvider {
     } as any);
     const checkoutUrl = (tx as any).checkout?.url;
     if (!checkoutUrl) throw new Error("Paddle did not return a checkout URL");
-    return { checkoutId: tx.id, checkoutUrl };
+    return { checkoutId: tx.id, checkoutUrl, transactionId: tx.id, priceId };
+  }
+
+  async createInlineCheckout(input: {
+    items: { name: string; priceCents: number; quantity: number }[];
+    customerEmail: string;
+    metadata?: Record<string, string>;
+  }) {
+    // Create transaction without checkout URL for inline use
+    const tx = await this.client.transactions.create({
+      items: input.items.map((i) => ({
+        quantity: i.quantity,
+        price: {
+          description: i.name,
+          name: i.name,
+          unitPrice: { amount: String(i.priceCents), currencyCode: "USD" },
+          quantity: { minimum: 1, maximum: 1 },
+          taxMode: "account_setting",
+          product: {
+            name: i.name,
+            taxCategory: "standard",
+          },
+        },
+      })) as any,
+      customerEmail: input.customerEmail,
+      customData: input.metadata ?? null,
+      collectionMode: "automatic",
+    } as any);
+    
+    // Extract price IDs from the created transaction
+    const items = ((tx as any).items ?? []).map((item: any) => ({
+      priceId: item.price.id,
+      quantity: item.quantity,
+    }));
+    
+    return { transactionId: tx.id, items };
+  }
+
+  async createInlineSubscriptionCheckout(input: {
+    tierId: string;
+    customerEmail: string;
+    metadata?: Record<string, string>;
+  }) {
+    const priceId = process.env[`PADDLE_PRICE_${input.tierId.toUpperCase()}`];
+    if (!priceId)
+      throw new Error(
+        `Missing PADDLE_PRICE_${input.tierId.toUpperCase()} env var — create a price for this tier in the Paddle dashboard and set the env var.`,
+      );
+    
+    const tx = await this.client.transactions.create({
+      items: [{ priceId, quantity: 1 }],
+      customerEmail: input.customerEmail,
+      customData: { ...(input.metadata ?? {}), tierId: input.tierId },
+      collectionMode: "automatic",
+    } as any);
+    
+    return { transactionId: tx.id, priceId };
   }
 
   async refund(transactionId: string, amountCents: number) {
